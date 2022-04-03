@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace:命名空间：指定该配置文件所对应的接口-->
+<mapper namespace="cn.ustb.mapper.OrderDetailMapper">
+		<insert id="insertOrderDetail" parameterType="OrderDetail">
+		insert into order_detail(
+			detail_order,detail_goods,
+			detail_price,detail_num)
+		values(
+			#{orderDetail.detailOrder},#{orderDetail.detailGoods},
+			#{orderDetail.detailPrice},#{orderDetail.detailNum})
+	</insert>
+</mapper>

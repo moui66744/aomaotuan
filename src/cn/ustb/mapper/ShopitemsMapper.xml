@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.ustb.mapper.ShopitemsMapper">
+
+	<resultMap type="Shopitems" id="shopitems_goods" autoMapping="true">
+		<id column="item_goods" property="itemGoods"/>
+		<collection property="goods" ofType="Goods" autoMapping="true">
+			<id column="goods_id" property="goodsId"/>
+		</collection>
+	</resultMap>
+
+	<insert id="insertShopitems" parameterType="Shopitems">
+		insert into shopitems(item_goods,item_num,item_user) values(#{shopitems.itemGoods},#{shopitems.itemNum},#{shopitems.itemUser})	
+	</insert>
+	
+	 <select id="getAllShopitemsAndGoods" resultMap="shopitems_goods">
+		select * from shopitems,goods
+		where shopitems.item_goods = goods.goods_id and shopitems.item_user=#{itemUser}
+	</select> 
+	
+	<delete id="deleteShopitems">
+		delete from shopitems where item_id = #{itemId}
+	</delete>
+	
+	<select id="getOneShopitemsAndGoods" resultMap="shopitems_goods">
+		select * from shopitems,goods
+		where shopitems.item_goods = goods.goods_id
+		and item_id=#{itemId}
+	</select> 
+	
+	<select id="getShopitemsCount" resultType="int">
+		select COUNT(item_goods) from shopitems where item_user=#{itemUser}
+		
+	</select> 
+	
+	<!-- <select id="getOneShopitemsByItemGoods" >
+		select * from shopitems
+		where item_goods=#{itemGoods} and item_user=#{itemUser}
+	</select>  -->
+	
+	<update id="updateShopitems">
+		update shopitems set
+		item_num = item_num+#{shopitems.itemNum}
+		where item_goods=#{shopitems.itemGoods} and item_user=#{shopitems.itemUser}
+	</update>
+</mapper>

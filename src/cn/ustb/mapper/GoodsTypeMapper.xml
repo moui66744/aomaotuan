@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace:命名空间：指定该配置文件所对应的接口-->
+<mapper namespace="cn.ustb.mapper.GoodsTypeMapper">
+	<select id="getAllGoodsType" resultType="GoodsType">
+		select * from goods_type
+	</select>
+<!-- 	<resultMap type="GoodsType" id="goodsType_goodsType" autoMapping="true">
+		<id column="type_id" property="typeId"/>
+		<collection property="parent" ofType="GoodsType" autoMapping="true">
+			<id column="type_id" property="typeId"/>
+		</collection>
+	</resultMap> -->
+	<select id="getAllGoodsTypeAndParent" resultType="GoodsType">
+		select * from goods_type
+	</select>
+	<delete id="deleteGoodsTypeById">
+		delete from goods_type where type_id = #{typeId}
+	</delete>
+	<select id="getAllParentType" resultType="GoodsType">
+		select * from goods_type where type_level = 1
+	</select>
+	<insert id="insertGoodsType" parameterType="GoodsType" useGeneratedKeys="true" keyProperty="goodsType.typeId">
+		insert into goods_type (
+		type_name,
+		type_pid,
+		type_level,
+		type_path
+		) 
+		values(
+		#{goodsType.typeName},
+		#{goodsType.typePid},
+		#{goodsType.typeLevel},
+		concat('|', #{goodsType.typePid}, '|')
+		)
+	</insert>
+	<update id="updateGoodsTypePath">
+		update goods_type set type_path = concat(type_path, '|', ${typeId}, '|') 
+		where type_id = #{typeId}
+	</update>
+	
+	<select id="getGoodsTypeByTypeId" resultType="GoodsType">
+	    select * from goods_type
+	    where type_id = #{typeId}
+	</select>
+	
+</mapper>

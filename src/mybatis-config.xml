@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    
+    <!-- 加载外部资源：主要是数据库的相关配置 -->
+    <properties resource="jdbc.properties"/>
+    <!-- 开启驼峰命名法 -->
+    <settings>
+    	<setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <!-- 给类型起别名 -->
+    <typeAliases>
+        <package name="cn.ustb.bean"/>
+    </typeAliases>
+    <!-- 集成插件 -->
+    <plugins>
+    	<!-- 设置分页拦截器 -->
+    	<plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+    <!-- 加载数据源：连接数据库  -->
+    <environments default="development">
+        <environment id="development">
+        <transactionManager type="JDBC"/>
+        <dataSource type="POOLED">
+            <property name="driver" value="${driver}"/>
+            <property name="url" value="${url}"/>
+            <property name="username" value="${username}"/>
+            <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 注册mapper.xml文件  -->
+    <mappers>
+        <package name="cn.ustb.mapper"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace:命名空间：指定该配置文件所对应的接口-->
+<mapper namespace="cn.ustb.mapper.AdminsMapper">
+	<resultMap type="Admins" id="admins_roles" autoMapping="true">
+		<id column="admin_id" property="adminId"/>
+		<collection property="role" ofType="Roles" autoMapping="true">
+			<id column="role_id" property="roleId"/>
+		</collection>
+	</resultMap>
+	<select id="getAdminByAdminNameAndAdminPass" resultMap="admins_roles">
+		select * from admins, roles 
+		where admin_id = role_id 
+		and admin_name = #{adminName}
+		and admin_pass = #{adminPass} 
+	</select>
+</mapper>

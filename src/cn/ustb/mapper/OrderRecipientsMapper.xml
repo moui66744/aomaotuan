@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace:命名空间：指定该配置文件所对应的接口-->
+<mapper namespace="cn.ustb.mapper.OrderRecipientsMapper">
+<select id="getAllOrderRecipientsByUserId" resultType="OrderRecipients">
+		select * from order_recipients 
+		where recipients_user = #{userId}
+	</select>
+	
+	<!--zhq  -->
+	<select id="getOrderRecipientsByRecipientsId" resultType="OrderRecipients">
+		select * from order_recipients 
+		where recipients_id = #{recipientsId}
+	</select>
+	
+	
+	<delete id="deleteOrderRecipientsById">
+		delete from order_recipients 
+		where recipients_id = #{recipientsId}
+	</delete>
+	<insert id="insertOrderRecipients" parameterType="OrderRecipients">
+		insert into order_recipients (
+		recipients_name,
+		recipients_address,
+		recipients_phone,
+		recipients_user,
+		recipients_checked)
+		values (
+		#{orderRecipients.recipientsName},
+		#{orderRecipients.recipientsAddress},
+		#{orderRecipients.recipientsPhone},
+		#{orderRecipients.recipientsUser},
+		#{orderRecipients.recipientsChecked})
+	</insert>
+	<select id="getOrderRecipientsCountByUser" resultType="java.lang.Integer">
+		select count(*) from order_recipients where recipients_user = #{recipientsUser}
+	</select>
+	<update id="updateRecipientsCheckedByUser">
+		update order_recipients set
+		recipients_checked = 0
+		where recipients_user = #{recipientsUser}
+	</update>
+
+</mapper>

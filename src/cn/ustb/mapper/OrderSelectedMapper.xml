@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace:命名空间：指定该配置文件所对应的接口-->
+<mapper namespace="cn.ustb.mapper.OrderSelectedMapper">
+      <resultMap type="Orders" id="orders_ordersType" autoMapping="true">
+      <id column="order_id" property="orderId"/>
+          <collection property="orderDetail" ofType="OrderDetail" autoMapping="true">
+              <id column="detail_id" property="detailId"/>
+              <collection property="goods" ofType="Goods" autoMapping ="true">
+                    <id column="goods_id" property="goodsId"/>
+              </collection>
+          </collection>
+          <collection property="orderForStatus" ofType="OrderStatus" autoMapping="true">
+               <id column="order_status_id" property="orderStatusId" />
+          </collection>
+      </resultMap>
+      <select id="getAllOrdersSelected" resultMap="orders_ordersType">
+         select * from orders,order_detail,goods,order_status
+          where orders.order_id = order_detail.detail_order and order_detail.detail_goods = goods_id and orders.order_status = order_status.order_status_id
+          and orders.order_status = #{select}
+      </select>
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace:命名空间：指定该配置文件所对应的接口-->
+<mapper namespace="cn.ustb.mapper.UsersMapper">
+	<select id="getUsersByEmail" resultType="Users">
+		select * from users where user_email = #{userEmail}
+	</select>
+	
+	<!-- 还没改好 -->
+	<update id="changePass" >
+		update users set user_pass = #{newPassword} where user_name = #{userName}
+	</update>
+	
+	
+	<select id="getUsersByUserPhoneAndUserPass" resultType="Users">
+		select * from users where user_phone = #{userPhone} and user_pass = #{userPass}
+	</select>
+	
+	<insert id="insertUsers" parameterType="Users">
+		insert into users(
+		user_name,
+		user_phone, 
+		user_pass,
+		user_email)
+		values(
+		#{users.userName},
+		#{users.userPhone},
+		#{users.userPass},
+		#{users.userEmail})
+	</insert>
+
+	<resultMap type="Users" id="users_orderRecipients" autoMapping="true">
+		<id column="user_id" property="userId"/>
+		<collection property="orderRecipients" ofType="OrderRecipients" autoMapping="true">
+			<id column="recipients_id" property="recipientsId"/>
+		</collection>
+	</resultMap>
+
+	<select id="getUsersAndRecipientsByUserId" resultMap="users_orderRecipients">
+		select * from users, order_recipients 
+		where user_id = recipients_user 
+		and user_id = #{userId}
+	</select>
+</mapper>
